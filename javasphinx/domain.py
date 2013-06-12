@@ -162,7 +162,7 @@ class JavaMethod(JavaObject):
                    typerolename='type', typenames=('type',)),
         Field('returnvalue', label=l_('Returns'), has_arg=False,
               names=('returns', 'return')),
-        GroupedField('throws', names=('throws',), label=l_('Throws'))
+        GroupedField('throws', names=('throws',), label=l_('Throws'), rolename='ref'),
     ]
 
     def handle_method_signature(self, sig, signode):
@@ -400,6 +400,16 @@ class JavaImport(Directive):
         env = self.state.document.settings.env
         package, typename = self.arguments
 
+        try:
+            env.imports
+        except:
+            env.imports = {}
+        """
+        let's save imports to another dictionary because temp_data for some
+        reasons gets cleared
+        """
+        env.imports.setdefault('java:imports', dict())[typename] = package
+
         env.temp_data.setdefault('java:imports', dict())[typename] = package
         return []
 
@@ -482,6 +492,15 @@ class JavaDomain(Domain):
         package = node.get('java:package')
         imported = node.get('java:imported')
         type_context = node.get('java:outertype')
+
+        #if it's throws argument we are building reference for
+        if typ == 'ref':
+            try:
+                package = env.imports.get('java:imports', dict()).get(target, None)
+                if package:
+                    imported = True
+            except:
+                pass
 
         # Partial function to make building the response easier
         make_ref = lambda fullname: make_refnode(builder, fromdocname, objects[fullname][0], fullname, contnode, fullname)
