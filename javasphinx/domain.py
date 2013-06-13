@@ -212,7 +212,7 @@ class JavaConstructor(JavaObject):
         TypedField('parameter', label=l_('Parameters'),
                    names=('param', 'parameter', 'arg', 'argument'),
                    typerolename='type', typenames=('type',)),
-        GroupedField('throws', names=('throws',), label=l_('Throws'))
+        GroupedField('throws', names=('throws',), label=l_('Throws'), rolename='ref')
     ]
 
     def handle_constructor_signature(self, sig, signode):
