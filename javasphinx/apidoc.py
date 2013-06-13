@@ -205,7 +205,7 @@ def is_excluded(root, excludes):
     if not root.endswith(sep):
         root += sep
     for exclude in excludes:
-        if root.startswith(exclude):
+        if root.endswith(exclude):
             return True
     return False
 
