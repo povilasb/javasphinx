@@ -200,7 +200,7 @@ def normalize_excludes(rootpath, excludes):
     for exclude in excludes:
         if not os.path.isabs(exclude) and not exclude.startswith(rootpath):
             exclude = os.path.join(rootpath, exclude)
-        f_excludes.append(os.path.normpath(exclude) + os.path.sep)
+        f_excludes.append(os.path.normpath(os.path.abspath(exclude)) + os.path.sep)
     return f_excludes
 
 def is_excluded(root, excludes):
