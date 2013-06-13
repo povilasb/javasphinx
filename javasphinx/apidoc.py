@@ -31,7 +31,10 @@ def find_source_files(input_path, excludes):
 
         for filename in filenames:
             if filename.endswith(".java"):
-                java_files.append(os.path.join(dirpath, filename))
+                sep = os.path.sep
+                full_filename = os.path.join(dirpath, filename)
+                if not is_excluded(full_filename, excludes):
+                    java_files.append(full_filename)
 
     return java_files
 
@@ -220,7 +223,8 @@ index (package-index.<ext>) will be created for each package, and a top level
 table of contents will be generated named packages.<ext>.
 
 Paths matching any of the given exclude_paths (interpreted as regular
-expressions) will be skipped.
+expressions) will be skipped. Also exclude_paths might be a specific file,
+e.g. MySourceFile.java
 
 Note: By default this script will not overwrite already created files.""")
 
