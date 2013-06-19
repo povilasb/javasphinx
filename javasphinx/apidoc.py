@@ -40,7 +40,7 @@ def find_source_files(input_path, excludes):
 
 def write_toc(packages, opts):
     doc = util.Document()
-    doc.add_heading('Javadoc', '=')
+    doc.add_heading('Packages', '=')
 
     toc = util.Directive('toctree')
     toc.add_option('maxdepth', '2')
